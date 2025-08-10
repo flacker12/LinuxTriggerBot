@@ -91,7 +91,7 @@ int keyLog(short actionKey) {
 int main() {
 
   Trigger trig;
-  trig.setDelay(80); //ms
+  trig.setDelay(70); //ms
   trig.setKey(58); //CAPSLOCK
 
   std::thread keyThread(keyLog, trig.getKeyCode()); 
@@ -120,6 +120,7 @@ int main() {
       if(std::abs((int)clipSize - (int)actionSize) > tolerance) {
         std::cout << "SHOT!!!\n";
         if (!singleClick) {
+          std::this_thread::sleep_for(std::chrono::milliseconds(trig.getDelay()));
           system("ydotool click 0xC0");
           singleClick = true;
         }
@@ -130,7 +131,7 @@ int main() {
       clipExist = false;
       singleClick = false;
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(trig.getDelay()));
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 
   
